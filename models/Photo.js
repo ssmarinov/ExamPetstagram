@@ -37,9 +37,13 @@ const photoSchema = new mongoose.Schema({
     },                                      //TODO commentList
     commentList: [                      
         {
-            type: mongoose.Types.ObjectId,
-            ref: 'User',
-
+            userId: {
+                type: mongoose.Types.ObjectId,
+                refUser: 'User',
+            },
+            comment: {
+                type: String
+            }
         }],
 });
 

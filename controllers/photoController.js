@@ -8,8 +8,6 @@ const photoService = require('../services/photoService');
 router.get('/catalog', async (req, res) => {
     const photo = await photoService.getAll().lean();
 
-    console.log(photo);
-
     res.render('photo/catalog', {photo});
 });
 //----------------------------------------------------------------------------------
@@ -31,12 +29,28 @@ router.get('/:photoId/details', async (req, res) => {
         res.render('photo/details', {...photo, isOwner, isUser});
         
     } catch (error) {
+        console.log('here')
         res.redirect('/404');
     }
 });
 
+//----------------------------------------------------------------------------------
+router.post('/:photoId/comment', async (req, res) => {
+    const photoId = req.params.photoId;
+    const userId = req.user._id;
+    const comment = req.body.comment;
 
-//----------------------------------------------------------------------------------PROBLEM
+    try {
+        await photoService.addComment(photoId, userId, comment);
+    } catch (error) {
+        console.log(error);
+    }
+
+    res.redirect(`/photos/${photoId}/details`);
+
+});
+
+//----------------------------------------------------------------------------------
 router.get('/:photoId/edit', isAuth,  async (req, res) => {
     const photoId = req.params.photoId;
     const photo = await photoService.getOne(photoId).lean();
@@ -53,10 +67,11 @@ router.post('/:photoId/edit', isAuth,  async (req, res) => {
         res.redirect(`/photos/${photoId}/details`);
         
     } catch (error) {
-        console.log('problem')
+        res.render('photo/edit', {...photoData,  error: getErrorMessage(error)});
     }
 
 });
+
 
 //----------------------------------------------------------------------------------
 router.get('/:photoId/delete', isAuth,  async (req, res) => {
@@ -69,7 +84,7 @@ router.get('/:photoId/delete', isAuth,  async (req, res) => {
         await photoService.delete(photoId);
         res.redirect('/photos/catalog')
     } else {
-        console.log('Invalid')
+        res.redirect('/404');
     }
 
 });
