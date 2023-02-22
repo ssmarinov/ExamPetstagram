@@ -35,11 +35,10 @@ const photoSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },                                      //TODO commentList
-    commentList: [                      
-        {
+    commentList: [{
             userId: {
                 type: mongoose.Types.ObjectId,
-                refUser: 'User',
+                ref: 'User',
             },
             comment: {
                 type: String

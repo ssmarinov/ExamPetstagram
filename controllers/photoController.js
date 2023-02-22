@@ -15,8 +15,18 @@ router.get('/:photoId/details', async (req, res) => {
     const photoId = req.params.photoId;
 
     try {
-        const photo = await photoService.getOne(photoId).populate('commentList').populate('ownerId').lean();
-        
+        const photo = await photoService
+            .getOne(photoId)
+            .populate('ownerId')
+            .populate('commentList.userId')
+            .lean()
+            //.populate({
+            //    path: 'commentList',
+            //    populate: {
+            //        path: 'userId'
+            //    }})
+            //    .lean();
+            
         let isUser = true;
         let isOwner = false;
     
@@ -25,6 +35,10 @@ router.get('/:photoId/details', async (req, res) => {
         } else {
             isOwner = photo.ownerId._id == req.user._id;
         }
+        
+        let comments = photo.commentList
+
+        console.log(comments)
     
         res.render('photo/details', {...photo, isOwner, isUser});
         
