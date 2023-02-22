@@ -16,10 +16,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required! Min length is 10 symbols'],
         minLength: 4
     },
-    myPhotoId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Photo'
-    }
+    myPhotoId: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Photo'
+        }
+    ]
 });
 
 

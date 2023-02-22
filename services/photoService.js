@@ -9,7 +9,7 @@ exports.edit = (photoId, photoData) => Photo.findByIdAndUpdate(photoId, photoDat
 
 exports.create = async (ownerId, photoData) => {
     const newPhoto = await Photo.create({ownerId, ...photoData});
-    await User.findByIdAndUpdate(ownerId, { myPhotoId: newPhoto._id});
+    await User.findByIdAndUpdate(ownerId, {$push: { myPhotoId: newPhoto._id}});
 };
 
 exports.addComment = async (photoId, userId, comment) => {

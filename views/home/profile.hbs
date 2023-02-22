@@ -31,24 +31,23 @@
             <!-- Start Uploaded Photos Section -->
             <div class="pet-photos">
 
+                {{#each myPhotoId}}
+
                 <!-- Link to Uploaded Pet Photo -->
-                <a href="#">
+                <a href="/photos/{{_id}}/details">
                     <!-- Pet Photo -->
-                    <img src="https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178.jpg?w=636&h=631"
+                    <img src="{{image}}"
                         alt="pet img">
                 </a>
 
-                <!-- Link to Uploaded Pet Photo -->
-                <a href="#">
-                    <!-- Pet Photo -->
-                    <img src="https://cf.ltkcdn.net/small-pets/images/orig/278587-1600x1066-goldfish-swimming-in-fish-tank.jpg"
-                        alt="pet img">
-                </a>
+                {{else}}
 
                 <!--If there are no photo yet!-->
                 <article class="not-available-photo">
                     <h1>You haven't uploaded photos yet…</h1>
                 </article>
+
+                {{/each}}
             </div>
 
         </div>

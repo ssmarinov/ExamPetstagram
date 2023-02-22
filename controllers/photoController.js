@@ -35,10 +35,6 @@ router.get('/:photoId/details', async (req, res) => {
         } else {
             isOwner = photo.ownerId._id == req.user._id;
         }
-        
-        let comments = photo.commentList
-
-        console.log(comments)
     
         res.render('photo/details', {...photo, isOwner, isUser});
         
