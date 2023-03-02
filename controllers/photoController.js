@@ -65,7 +65,12 @@ router.get('/:photoId/edit', isAuth,  async (req, res) => {
     const photoId = req.params.photoId;
     const photo = await photoService.getOne(photoId).lean();
 
-    res.render('photo/edit', {...photo});
+    if (photo._id == req.user._id){
+        res.render('photo/edit', {...photo});
+    }else{
+        res.redirect('/404');
+    }
+
 });
 
 router.post('/:photoId/edit', isAuth,  async (req, res) => {
